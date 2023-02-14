@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Theme from '../../../Theme/Theme';
+import './Header.css';
 
 const Header = () => {
     const menuItems = <>
@@ -35,9 +36,11 @@ const Header = () => {
                         }
                     </ul>
                 </div>
-                <div className="navbar-end">
+                <div className="navbar-end lg:flex-row flex-col">
                     <Theme></Theme>
-                    <a className="btn">Get started</a>
+                    {/* <a className="btn">Get started</a> */}
+                    <button className="btn login">Login</button>
+                    <button className="btn register">Register</button>
                 </div>
             </div>
         </div>

@@ -6,7 +6,7 @@ const Dentalcare = () => {
     return (
         <div className="hero min-h-screen bg-base-200">
             <div className="hero-content flex-col lg:flex-row gap-24">
-                <img src={treatment} className="max-w-sm rounded-lg shadow-2xl" />
+                <img style={{ width: '100%' }} src={treatment} className="max-w-sm rounded-lg shadow-2xl" />
                 <div className='lg:w-1/2'>
                     <h1 className="text-5xl font-bold">Exceptional Dental</h1>
                     <h1 className="text-5xl font-bold">Care, on Your Terms</h1>
