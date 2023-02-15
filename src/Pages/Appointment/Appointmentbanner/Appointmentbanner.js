@@ -3,8 +3,8 @@ import chair from '../../../assets/images/chair.png'
 import { DayPicker } from 'react-day-picker';
 import { format } from 'date-fns';
 
-const Appointmentbanner = () => {
-    const [Dateselect, setDateselect] = useState(new Date())
+const Appointmentbanner = ({ Dateselect, setDateselect }) => {
+    // const [Dateselect, setDateselect] = useState(new Date())
     return (
         <header className='my-6'>
             <div className="hero">

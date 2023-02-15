@@ -1,7 +1,7 @@
          .login {
              background-image: linear-gradient(to right, #ff4b1f 0%, #ff9068 51%, #ff4b1f 100%);
-             margin: 10px;
-             padding: 15px 45px;
+             /* margin: 10px; */
+             padding: 15px 20px;
              text-align: center;
              text-transform: uppercase;
              transition: 0.5s;
@@ -22,8 +22,8 @@
 
          .register {
              background-image: linear-gradient(to right, #32ff1f 0%, #9dff68 51%, #48ff1f 100%);
-             margin: 10px;
-             padding: 15px 45px;
+             /* margin: 10px; */
+             padding: 15px 20px;
              text-align: center;
              text-transform: uppercase;
              transition: 0.5s;
