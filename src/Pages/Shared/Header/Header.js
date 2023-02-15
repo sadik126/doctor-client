@@ -6,7 +6,7 @@ import './Header.css';
 const Header = () => {
     const menuItems = <>
         <li><Link to='/'>Home</Link></li>
-        <li><Link to=''>Appointment</Link></li>
+        <li><Link to='/appointment'>Appointment</Link></li>
 
         <li><Link to=''>About</Link></li>
         <li><Link to=''>Contact</Link></li>
@@ -39,7 +39,7 @@ const Header = () => {
                 <div className="navbar-end lg:flex-row flex-col">
                     <Theme></Theme>
                     {/* <a className="btn">Get started</a> */}
-                    <button className="btn login">Login</button>
+                    <Link to={'/login'}><button className="btn login">Login</button></Link>
                     <button className="btn register">Register</button>
                 </div>
             </div>
