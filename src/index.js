@@ -5,11 +5,16 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 import 'react-day-picker/dist/style.css';
+import Authprovider from './Contexts/Authprovider';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <Authprovider>
+      <App />
+
+    </Authprovider>
+
   </React.StrictMode>
 );
 
