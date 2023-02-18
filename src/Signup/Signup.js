@@ -11,6 +11,12 @@ const Signup = () => {
 
     const handleLogin = data => {
         console.log(data)
+        createUser(data.Email, data.Password)
+            .then(result => {
+                const user = result.user;
+                console.log(user)
+            })
+            .catch(err => console.log(err))
     }
     return (
         <div className='h-[600px] flex justify-center items-center my-10'>
@@ -51,7 +57,7 @@ const Signup = () => {
                             </label>
 
                             {
-                                errors.Password ? <input style={{ border: '1px solid red' }} type="password" {...register("Password", { required: "Password is required" })} placeholder="Type here" className="input input-bordered w-full max-w-xs" /> : <input type="password" {...register("Password", { required: "Password is required", minLength: { value: 6, message: 'password should be 6 charecters' }, pattern: { value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/, message: 'please try Minimum eight characters, at least one letter and one number' } })} placeholder="Type here" className="input input-bordered w-full max-w-xs" />
+                                errors.Password ? <input style={{ border: '1px solid red' }} type="password" {...register("Password", { required: "Password is required" })} placeholder="Type here" className="input input-bordered w-full max-w-xs" /> : <input type="password" {...register("Password", { required: "Password is required", minLength: { value: 6, message: 'password should be 6 charecters' }, pattern: { value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/, message: 'please try  at least one letter and one number' } })} placeholder="Type here" className="input input-bordered w-full max-w-xs" />
                             }
                             {/* <input type="password" {...register("Password", { required: "Password is required" })} placeholder="Type here" className="input input-bordered w-full max-w-xs" /> */}
 
@@ -67,7 +73,7 @@ const Signup = () => {
 
                             {
                                 errors.cPassword ? <input style={{ border: '1px solid red' }} type="password" {...register("cPassword", { required: "Confirm Password is required" })} placeholder="Type here" className="input input-bordered w-full max-w-xs" /> : <input type="password" {...register("cPassword", {
-                                    required: "Password is required", validate: (val) => {
+                                    required: "Confirm Password is required", validate: (val) => {
                                         if (watch('Password') != val) {
                                             return "Your passwords do no match";
                                         }
