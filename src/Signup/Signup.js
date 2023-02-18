@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import signup from '../../src/assets/images/child-visiting-the-pediatrician.png'
+import { AuthContext } from '../Contexts/Authprovider';
 
 const Signup = () => {
     const { register, formState: { errors }, handleSubmit, watch } = useForm();
+
+    const { createUser } = useContext(AuthContext)
 
     const handleLogin = data => {
         console.log(data)
