@@ -1,24 +1,22 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
-import './Login.css';
-import login from '../../src/assets/images/login.png'
+import signup from '../../src/assets/images/child-visiting-the-pediatrician.png'
 
-const Login = () => {
+const Signup = () => {
     const { register, formState: { errors }, handleSubmit } = useForm();
 
     const handleLogin = data => {
         console.log(data)
     }
-
     return (
         <div className='h-[600px] flex justify-center items-center'>
             <div className='hero-content flex-col lg:flex-row gap-64'>
 
-                <img src={login} className="max-w-sm rounded-lg shadow-2xl" alt="" />
+                <img src={signup} className="w-full rounded-lg shadow-2xl" alt="" />
 
-                <div className='w-96 p-7 formbg'>
-                    <h2 className='text-4xl'>Login</h2>
+                <div className='w-full p-7 formbg'>
+                    <h2 className='text-4xl'>Sign up</h2>
                     <form onSubmit={handleSubmit(handleLogin)} >
 
 
@@ -53,16 +51,16 @@ const Login = () => {
                         </label>
 
                         {/* <input {...register("firstName")} placeholder="First name" />
-                    <select {...register("category", { required: true })}>
-                        <option value="">Select...</option>
-                        <option value="A">Option A</option>
-                        <option value="B">Option B</option>
-                    </select>
-                    <textarea {...register("aboutYou")} placeholder="About you" /> */}
+                <select {...register("category", { required: true })}>
+                    <option value="">Select...</option>
+                    <option value="A">Option A</option>
+                    <option value="B">Option B</option>
+                </select>
+                <textarea {...register("aboutYou")} placeholder="About you" /> */}
                         {/* <p>{data}</p> */}
                         <input className="btn btn-outline btn-primary w-full" value="Login" type="submit" />
                     </form>
-                    <p>New to doctors portal? < Link to='/signup' className='text-orange-700'>Create new account</Link></p>
+                    <p>Already have an account? < Link to='/login' className='text-orange-700'>Create new account</Link></p>
                     <div className="divider">OR</div>
                     <button className="btn btn-outline btn-succes w-full">Sign with Google</button>
                 </div>
@@ -73,4 +71,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default Signup;
