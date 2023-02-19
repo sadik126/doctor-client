@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import './Login.css';
 import login from '../../src/assets/images/login.png'
 import { AuthContext } from '../Contexts/Authprovider';
@@ -12,6 +12,12 @@ const Login = () => {
 
     const [Loginerror, setLoginerror] = useState('')
 
+    const location = useLocation()
+
+    const nevigate = useNavigate();
+
+    const from = location.state?.from?.pathname || '/';
+
     const handleLogin = data => {
         console.log(data)
         setLoginerror('')
@@ -19,6 +25,7 @@ const Login = () => {
             .then(result => {
                 const user = result.user;
                 console.log(user)
+                nevigate(from, { replace: true })
             })
             .catch(err => {
                 console.log(err.code)

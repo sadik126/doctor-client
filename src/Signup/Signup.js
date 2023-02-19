@@ -1,39 +1,52 @@
+import { async } from '@firebase/util';
 import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import signup from '../../src/assets/images/child-visiting-the-pediatrician.png'
 import { AuthContext } from '../Contexts/Authprovider';
+import { useUpdateProfile } from 'react-firebase-hooks/auth';
+import { getAuth } from 'firebase/auth';
+import app from '../firebase/firebase.config';
 
 const Signup = () => {
     const { register, formState: { errors }, handleSubmit, watch } = useForm();
 
-    const { createUser, updateProfile } = useContext(AuthContext)
+    const { createUser } = useContext(AuthContext)
 
-    const [signuperror, setsignupError] = useState('')
+    const [signupError, setsignupError] = useState('')
 
-    const handleLogin = data => {
+    const auth = getAuth(app);
+
+    const [updateProfile, updating, updateError] = useUpdateProfile(auth);
+
+    const handleLogin = async data => {
         console.log(data)
-        signuperror('')
-        createUser(data.Email, data.Password)
-            .then(result => {
+        setsignupError('')
+        await createUser(data.Email, data.Password)
+            .then(async result => {
                 const user = result.user;
                 console.log(user)
                 toast('User created successfully')
-                const userInfo = {
-                    displayName: data.Name
-                }
-                updateProfile(userInfo)
-                    .then(() => {
+                // const userInfo = {
+                //     displayName: data.Name
+                // }
 
-                    })
-                    .catch(err => {
-                        console.log(err)
-                        setsignupError(err.message)
-
-                    })
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                console.log(err)
+                setsignupError(err.message)
+            })
+
+        await updateProfile({ displayName: data.Name })
+        // .then(() => {
+
+        // })
+        // .catch(error => {
+        //     console.log(error)
+        //     setsignupError(error.message)
+
+        // })
     }
     return (
         <div className='h-[600px] flex justify-center items-center my-10'>
@@ -117,7 +130,11 @@ const Signup = () => {
                 <textarea {...register("aboutYou")} placeholder="About you" /> */}
                         {/* <p>{data}</p> */}
                         <input className="btn btn-outline btn-accent w-full" value="Register" type="submit" />
+
                     </form>
+                    {
+                        signupError && <p className='text-red-600'>{signupError}</p>
+                    }
                     <p>Already have an account? < Link to='/login' className='text-orange-700'>Please Login</Link></p>
                     <div className="divider">OR</div>
                     <button className="btn btn-outline btn-succes w-full">Sign with Google</button>
