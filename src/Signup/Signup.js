@@ -1,5 +1,6 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import signup from '../../src/assets/images/child-visiting-the-pediatrician.png'
 import { AuthContext } from '../Contexts/Authprovider';
@@ -7,14 +8,30 @@ import { AuthContext } from '../Contexts/Authprovider';
 const Signup = () => {
     const { register, formState: { errors }, handleSubmit, watch } = useForm();
 
-    const { createUser } = useContext(AuthContext)
+    const { createUser, updateProfile } = useContext(AuthContext)
+
+    const [signuperror, setsignupError] = useState('')
 
     const handleLogin = data => {
         console.log(data)
+        signuperror('')
         createUser(data.Email, data.Password)
             .then(result => {
                 const user = result.user;
                 console.log(user)
+                toast('User created successfully')
+                const userInfo = {
+                    displayName: data.Name
+                }
+                updateProfile(userInfo)
+                    .then(() => {
+
+                    })
+                    .catch(err => {
+                        console.log(err)
+                        setsignupError(err.message)
+
+                    })
             })
             .catch(err => console.log(err))
     }
