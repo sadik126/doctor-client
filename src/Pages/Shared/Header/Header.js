@@ -1,9 +1,19 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../../Contexts/Authprovider';
 import Theme from '../../../Theme/Theme';
 import './Header.css';
 
 const Header = () => {
+    const { user, Logout } = useContext(AuthContext)
+
+    const handleLogout = () => {
+        Logout()
+            .then(() => {
+
+            })
+            .catch(err => console.log(err))
+    }
     const menuItems = <>
         <li><Link to='/'>Home</Link></li>
         <li><Link to='/appointment'>Appointment</Link></li>
@@ -15,7 +25,7 @@ const Header = () => {
     </>
     return (
         <div>
-            <div className="navbar p-0 bg-base-100">
+            <div className="navbar   bg-base-100">
                 <div className="navbar-start">
                     <div className="dropdown">
                         <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -39,8 +49,11 @@ const Header = () => {
                 <div className="navbar-end lg:flex-row flex-row">
                     <Theme></Theme>
                     {/* <a className="btn">Get started</a> */}
-                    <Link to={'/login'}><button className="btn login">Login</button></Link>
-                    <button className="btn lg:m-2.5 m-2 register">Register</button>
+                    {
+                        user?.uid ? <button onClick={handleLogout} className="btn login">Log out</button> : <Link to={'/login'}><button className="btn login">Login</button></Link>
+                    }
+
+                    {/* <button className="btn lg:m-2.5 m-2 register">Register</button> */}
                 </div>
             </div>
         </div>

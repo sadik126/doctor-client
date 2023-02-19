@@ -10,14 +10,29 @@ const Login = () => {
 
     const { signInUser } = useContext(AuthContext)
 
+    const [Loginerror, setLoginerror] = useState('')
+
     const handleLogin = data => {
         console.log(data)
+        setLoginerror('')
         signInUser(data.Email, data.Password)
             .then(result => {
                 const user = result.user;
                 console.log(user)
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                console.log(err.code)
+                if (err.code === 'auth/user-not-found') {
+                    setLoginerror('This email adress is not registered')
+                }
+                else if (err.code === 'auth/wrong-password') {
+                    setLoginerror('Please check your password')
+                }
+                else {
+                    setLoginerror('An unknown error occurred.please try again later')
+                }
+                // setLoginerror(err.message)
+            })
     }
 
     return (
@@ -70,6 +85,10 @@ const Login = () => {
                     <textarea {...register("aboutYou")} placeholder="About you" /> */}
                         {/* <p>{data}</p> */}
                         <input className="btn btn-outline btn-primary w-full" value="Login" type="submit" />
+
+                        {
+                            Loginerror && <p className='text-red-700'>{Loginerror}</p>
+                        }
                     </form>
                     <p>New to doctors portal? < Link to='/signup' className='text-orange-700'>Create new account</Link></p>
                     <div className="divider">OR</div>
