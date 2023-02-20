@@ -4,19 +4,49 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import './Login.css';
 import login from '../../src/assets/images/login.png'
 import { AuthContext } from '../Contexts/Authprovider';
+import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import app from '../firebase/firebase.config';
 
 const Login = () => {
     const { register, formState: { errors }, handleSubmit } = useForm();
 
-    const { signInUser } = useContext(AuthContext)
+    const { signInUser, googlesignIN } = useContext(AuthContext)
 
     const [Loginerror, setLoginerror] = useState('')
+
+    const auth = getAuth(app)
 
     const location = useLocation()
 
     const nevigate = useNavigate();
 
     const from = location.state?.from?.pathname || '/';
+
+    const googlesign = () => {
+        const provider = new GoogleAuthProvider();
+        signInWithPopup(auth, provider)
+            .then((result) => {
+                // This gives you a Google Access Token. You can use it to access the Google API.
+                const credential = GoogleAuthProvider.credentialFromResult(result);
+                const token = credential.accessToken;
+                // The signed-in user info.
+                const user = result.user;
+                console.log(user)
+                // IdP data available using getAdditionalUserInfo(result)
+                // ...
+            })
+            .catch((error) => {
+                console.log(error)
+                // Handle Errors here.
+                // const errorCode = error.code;
+                // const errorMessage = error.message;
+                // // The email of the user's account used.
+                // const email = error.customData.email;
+                // // The AuthCredential type that was used.
+                // const credential = GoogleAuthProvider.credentialFromError(error);
+                // ...
+            })
+    }
 
     const handleLogin = data => {
         console.log(data)
@@ -99,7 +129,7 @@ const Login = () => {
                     </form>
                     <p>New to doctors portal? < Link to='/signup' className='text-orange-700'>Create new account</Link></p>
                     <div className="divider">OR</div>
-                    <button className="btn btn-outline btn-succes w-full">Sign with Google</button>
+                    <button onClick={googlesign} className="btn btn-outline btn-succes w-full">Sign with Google</button>
                 </div>
 
             </div>
