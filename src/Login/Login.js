@@ -6,6 +6,7 @@ import login from '../../src/assets/images/login.png'
 import { AuthContext } from '../Contexts/Authprovider';
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import app from '../firebase/firebase.config';
+import toast from 'react-hot-toast';
 
 const Login = () => {
     const { register, formState: { errors }, handleSubmit } = useForm();
@@ -31,12 +32,15 @@ const Login = () => {
                 const token = credential.accessToken;
                 // The signed-in user info.
                 const user = result.user;
+                toast.success('Doctors portal Login successfully')
+                nevigate(from, { replace: true })
                 console.log(user)
                 // IdP data available using getAdditionalUserInfo(result)
                 // ...
             })
             .catch((error) => {
                 console.log(error)
+                toast.error('There is an error.please wait for it')
                 // Handle Errors here.
                 // const errorCode = error.code;
                 // const errorMessage = error.message;
@@ -55,6 +59,7 @@ const Login = () => {
             .then(result => {
                 const user = result.user;
                 console.log(user)
+                toast.success('Doctors portal Login successfully')
                 nevigate(from, { replace: true })
             })
             .catch(err => {

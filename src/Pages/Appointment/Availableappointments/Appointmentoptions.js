@@ -39,8 +39,10 @@ const Appointmentoptions = ({ appointmentoptions, setTreatment, treatment, Dates
         const email = form.email.value;
         const phone = form.phone.value;
 
+
+
         const booking = {
-            appointmentDate: Dateselect,
+            appointmentDate: format(Dateselect, 'PP'),
             treatment: name,
             patient: patientname,
             slot,
@@ -77,7 +79,7 @@ const Appointmentoptions = ({ appointmentoptions, setTreatment, treatment, Dates
                                     <input name='name' type="text" defaultValue={user?.displayName} placeholder="Type your name" className="input input-bordered w-full max-w-xs" />
                                     <span id="NameError" style={{ color: 'red' }}></span>
                                     <input name='email' type="email" defaultValue={user?.email} disabled placeholder="Type your email" className="input input-bordered w-full max-w-xs" />
-                                    <input name='phone' type="text" value={'+88'} placeholder="Type your number" className="input input-bordered w-full max-w-xs" />
+                                    <input name='phone' type="text" defaultValue={'+88'} placeholder="Type your number" className="input input-bordered w-full max-w-xs" />
                                     {/* <IntlTelInput
                                         className="input input-bordered w-full max-w-xs"
                                         preferredCountries={['bd']}
