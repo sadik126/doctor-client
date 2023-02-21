@@ -1,12 +1,15 @@
 import { format } from 'date-fns';
-import React from 'react';
+import React, { useContext } from 'react';
 import './Appointment.css';
 import ReactDOM from 'react-dom';
 import IntlTelInput from 'react-intl-tel-input';
 import 'react-intl-tel-input/dist/main.css';
+import { AuthContext } from '../../../Contexts/Authprovider';
 
 const Appointmentoptions = ({ appointmentoptions, setTreatment, treatment, Dateselect }) => {
     const { name, slots } = appointmentoptions
+
+    const { user } = useContext(AuthContext)
 
     // const Clickmodal = () => {
     //     console.log('clicked', name)
@@ -71,9 +74,9 @@ const Appointmentoptions = ({ appointmentoptions, setTreatment, treatment, Dates
                                             treatment?.slots.map((slot, i) => <option key={i} value={slot}>{slot}</option>)
                                         }
                                     </select>
-                                    <input name='name' type="text" placeholder="Type your name" className="input input-bordered w-full max-w-xs" />
+                                    <input name='name' type="text" defaultValue={user?.displayName} placeholder="Type your name" className="input input-bordered w-full max-w-xs" />
                                     <span id="NameError" style={{ color: 'red' }}></span>
-                                    <input name='email' type="email" placeholder="Type your email" className="input input-bordered w-full max-w-xs" />
+                                    <input name='email' type="email" defaultValue={user?.email} disabled placeholder="Type your email" className="input input-bordered w-full max-w-xs" />
                                     <input name='phone' type="text" value={'+88'} placeholder="Type your number" className="input input-bordered w-full max-w-xs" />
                                     {/* <IntlTelInput
                                         className="input input-bordered w-full max-w-xs"

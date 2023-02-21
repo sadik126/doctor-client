@@ -2,7 +2,7 @@ import { async } from '@firebase/util';
 import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import signup from '../../src/assets/images/child-visiting-the-pediatrician.png'
 import { AuthContext } from '../Contexts/Authprovider';
 import { useUpdateProfile } from 'react-firebase-hooks/auth';
@@ -20,6 +20,8 @@ const Signup = () => {
 
     const [updateProfile, updating, updateError] = useUpdateProfile(auth);
 
+    const nevigate = useNavigate()
+
     const handleLogin = async data => {
         console.log(data)
         setsignupError('')
@@ -27,6 +29,7 @@ const Signup = () => {
             .then(async result => {
                 const user = result.user;
                 console.log(user)
+                nevigate('/')
                 toast('User created successfully')
                 // const userInfo = {
                 //     displayName: data.Name
@@ -39,6 +42,8 @@ const Signup = () => {
             })
 
         await updateProfile({ displayName: data.Name })
+
+
         // .then(() => {
 
         // })

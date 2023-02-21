@@ -3,17 +3,28 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import {
+
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query'
 
 import 'react-day-picker/dist/style.css';
 import Authprovider from './Contexts/Authprovider';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+const queryClient = new QueryClient()
 root.render(
   <React.StrictMode>
-    <Authprovider>
-      <App />
 
-    </Authprovider>
+    <QueryClientProvider client={queryClient}>
+      <Authprovider>
+        <App />
+
+      </Authprovider>
+
+    </QueryClientProvider>
+
 
   </React.StrictMode>
 );

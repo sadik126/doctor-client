@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../Contexts/Authprovider';
 import Theme from '../../../Theme/Theme';
 import './Header.css';
@@ -7,9 +7,12 @@ import './Header.css';
 const Header = () => {
     const { user, Logout } = useContext(AuthContext)
 
+    const nevigate = useNavigate();
+
     const handleLogout = () => {
         Logout()
             .then(() => {
+                nevigate('/login')
 
             })
             .catch(err => console.log(err))

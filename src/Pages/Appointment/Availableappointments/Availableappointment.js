@@ -1,3 +1,4 @@
+import { useQuery } from '@tanstack/react-query';
 import format from 'date-fns/format';
 import React, { useEffect, useState } from 'react';
 import Appointmentoptions from './Appointmentoptions';
@@ -5,13 +6,19 @@ import Appointmentoptions from './Appointmentoptions';
 
 
 const Availableappointment = ({ Dateselect, setDateselect }) => {
-    const [appointmentoptions, setappointmentoptions] = useState([])
+    // const [appointmentoptions, setappointmentoptions] = useState([])
     const [treatment, setTreatment] = useState(null)
-    useEffect(() => {
-        fetch('services.json')
+
+    const { data: appointmentoptions = [], isLoading } = useQuery({
+        queryKey: ['appointments'],
+        queryFn: () => fetch('http://localhost:5080/appointments')
             .then(res => res.json())
-            .then(data => setappointmentoptions(data))
-    }, [])
+    })
+    // useEffect(() => {
+    //     fetch('http://localhost:5080/appointments')
+    //         .then(res => res.json())
+    //         .then(data => setappointmentoptions(data))
+    // }, [])
     return (
         <section className='my-16'>
 
