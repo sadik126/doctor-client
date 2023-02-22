@@ -5,6 +5,9 @@ import { format } from 'date-fns';
 
 const Appointmentbanner = ({ Dateselect, setDateselect }) => {
     // const [Dateselect, setDateselect] = useState(new Date())
+    const disabled = {
+        before: Dateselect
+    }
     return (
         <header className='my-6'>
             <div className="hero">
@@ -13,6 +16,7 @@ const Appointmentbanner = ({ Dateselect, setDateselect }) => {
                     <div>
                         <DayPicker
 
+                            disabled={disabled}
                             mode='single'
                             selected={Dateselect}
                             onSelect={setDateselect}
