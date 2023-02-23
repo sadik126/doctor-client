@@ -29,7 +29,8 @@ const Signup = () => {
             .then(async result => {
                 const user = result.user;
                 console.log(user)
-                nevigate('/')
+                saveuser(data.Name, data.Email, data.Password)
+
                 toast('User created successfully')
                 // const userInfo = {
                 //     displayName: data.Name
@@ -52,6 +53,36 @@ const Signup = () => {
         //     setsignupError(error.message)
 
         // })
+
+
+    }
+
+    const saveuser = (Name, Email, Password) => {
+        const users = { Name, Email, Password }
+        fetch('http://localhost:5080/users', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(users)
+        })
+            .then(res => res.json())
+            .then(data => {
+                getusertoken(Email)
+
+            })
+    }
+
+    const getusertoken = (email) => {
+        fetch(`http://localhost:5080/jwt?email=${email}`)
+            .then(res => res.json())
+            .then(data => {
+                if (data.accessToken) {
+                    localStorage.setItem('accessToken', data.accessToken)
+                    nevigate('/')
+                }
+
+            })
     }
     return (
         <div className='h-[600px] flex justify-center items-center my-10'>
