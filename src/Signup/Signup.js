@@ -58,7 +58,7 @@ const Signup = () => {
     }
 
     const saveuser = (Name, Email, Password) => {
-        const users = { Name, Email, Password }
+        const users = { name: Name, email: Email, password: Password }
         fetch('http://localhost:5080/users', {
             method: 'POST',
             headers: {
@@ -77,7 +77,9 @@ const Signup = () => {
         fetch(`http://localhost:5080/jwt?email=${email}`)
             .then(res => res.json())
             .then(data => {
+                console.log(data)
                 if (data.accessToken) {
+
                     localStorage.setItem('accessToken', data.accessToken)
                     nevigate('/')
                 }
