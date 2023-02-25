@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link, Outlet } from 'react-router-dom';
+import { AuthContext } from '../Contexts/Authprovider';
+import Useadmin from '../Pages/Dashboard/hooks/useAdmin/Useadmin';
 import Header from '../Pages/Shared/Header/Header';
 
 const Dashboardlayout = () => {
+    const { user } = useContext(AuthContext)
+    const [isAdmin] = Useadmin(user?.email)
     return (
         <div>
             <Header></Header>
@@ -18,7 +22,12 @@ const Dashboardlayout = () => {
                     <ul className="menu p-4 w-80 bg-base-100 text-base-content">
 
                         <li><Link to='/dashboard'>My appointments</Link></li>
-                        <li><Link to='/dashboard/users'>Users</Link></li>
+                        {
+                            isAdmin &&
+                            <>
+                                <li><Link to='/dashboard/users'>Users</Link></li>
+                            </>
+                        }
                     </ul>
 
                 </div>

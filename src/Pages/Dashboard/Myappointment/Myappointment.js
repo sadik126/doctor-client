@@ -33,6 +33,7 @@ const Myappointment = () => {
                             <th>Date</th>
                             <th>phone</th>
                             <th>slot</th>
+                            <th>Delete</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -47,6 +48,7 @@ const Myappointment = () => {
                                     <td>{booking.appointmentDate}</td>
                                     <td>{booking.phone}</td>
                                     <td>{booking.slot}</td>
+                                    <td><button className='btn btn-xs btn-error'>Delete</button></td>
                                 </tr>
                             )
                         }

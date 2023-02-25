@@ -1,8 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
 import React from 'react';
+import toast from 'react-hot-toast';
 
 const Allusers = () => {
-    const { data: users = [] } = useQuery({
+    const { data: users = [], refetch } = useQuery({
         queryKey: ['users'],
         queryFn: async () => {
             const res = await fetch('http://localhost:5080/users')
@@ -10,6 +11,24 @@ const Allusers = () => {
             return data;
         }
     })
+
+
+    const handlemakeadmin = (id) => {
+        fetch(`http://localhost:5080/users/admin/${id}`, {
+            method: 'PUT',
+            headers: {
+                authorization: `bearer ${localStorage.getItem('accessToken')}`
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.modifiedCount > 0) {
+                    toast.success('Make admin successfully')
+                    refetch();
+                }
+                console.log(data)
+            })
+    }
     return (
         <div>
             <h1 className='text-3xl'>All users</h1>
@@ -20,36 +39,30 @@ const Allusers = () => {
                         <tr>
                             <th></th>
                             <th>Name</th>
-                            <th>Job</th>
-                            <th>Favorite Color</th>
-                            <th>Favorite Color</th>
-                            <th>Favorite Color</th>
+                            <th>Email</th>
+                            <th>Admin</th>
+                            <th>Delete</th>
+
                         </tr>
                     </thead>
                     <tbody>
-                        {/* row 1 */}
-                        <tr className='hover'>
-                            <th>1</th>
-                            <td>Cy Ganderton</td>
-                            <td>Quality Control Specialist</td>
-                            <td>Blue</td>
-                            <td>Blue</td>
-                            <td>Blue</td>
-                        </tr>
-                        {/* row 2 */}
-                        {/* <tr className="hover">
-                            <th>2</th>
-                            <td>Hart Hagerty</td>
-                            <td>Desktop Support Technician</td>
-                            <td>Purple</td>
-                        </tr>
-                        {/* row 3 */}
-                        {/* <tr>
-                            <th>3</th>
-                            <td>Brice Swyre</td>
-                            <td>Tax Accountant</td>
-                            <td>Red</td>
-                        </tr> */}
+
+
+                        {
+                            users.map((user, i) => <tr key={user._id} className='hover'>
+                                <th>{i + 1}</th>
+                                <td>{user.name}</td>
+                                <td>{user.email}</td>
+                                <td>{user?.role !== 'admin' && <button onClick={() => handlemakeadmin(user._id)} className='btn btn-xs btn-primary'>Make Admin</button>}</td>
+                                <td>{user?.role !== 'admin' && <button className='btn btn-xs btn-error'>Delete</button>}</td>
+
+
+
+                            </tr>)
+                        }
+
+
+
                     </tbody>
                 </table>
             </div>
