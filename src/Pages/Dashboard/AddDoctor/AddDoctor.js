@@ -1,15 +1,69 @@
+import { async } from '@firebase/util';
+import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
+import Loading from '../../Shared/Loading/Loading';
 
 const AddDoctor = () => {
 
+    const { data: speciality = [], refetch, isLoading, isError } = useQuery({
+        queryKey: ['speciality'],
+        queryFn: async () => {
+            const res = await fetch('http://localhost:5080/speciality')
+            const data = await res.json();
+            return data;
+        }
+
+    })
+
     const { register, formState: { errors }, handleSubmit, watch } = useForm();
 
+    const imagehostkey = process.env.REACT_APP_IMAGE_BB;
+    console.log(imagehostkey)
+
     const handleAdddoctor = (data) => {
+        const image = data.Image[0];
+        const formData = new FormData();
+        formData.append('image', image)
+        const url = `https://api.imgbb.com/1/upload?expiration=600&key=${imagehostkey}`
+        fetch(url, {
+            method: 'POST',
+            body: formData
+        })
+            .then(res => res.json())
+            .then(imgData => {
+                if (imgData.success) {
+                    console.log(imgData.data.url)
+                    const doctor = {
+                        name: data.Name,
+                        email: data.Email,
+                        speciality: data.speciality,
+                        image: imgData.data.url
+                    }
+
+                    fetch('http://localhost:5080/doctors', {
+                        method: 'POST',
+                        headers: {
+                            'content-type': 'application/json'
+                        },
+                        body: JSON.stringify(doctor)
+                    })
+                        .then(res => res.json())
+                        .then(data => {
+                            console.log(data)
+                            toast.success(`${data.Name} Added successfully`)
+                        })
+                }
+            })
         console.log(data)
     }
+
+    if (isLoading) {
+        return <Loading></Loading>
+    }
     return (
-        <div className='w-96 p-7'>
+        <div className='w-96 p-7 mx-auto'>
             <h1 className='text-3xl'>Add Doctor</h1>
             <form onSubmit={handleSubmit(handleAdddoctor)} >
 
@@ -38,10 +92,29 @@ const AddDoctor = () => {
 
                 <div className="form-control w-full max-w-xs">
                     <label className="label">
-                        <span className="label-text">Email</span>
-                        <span className="label-text-alt">Type carefully</span>
+                        <span className="label-text">Speciality</span>
+
                     </label>
 
+                    <select className="select select-bordered w-full max-w-xs" {...register("speciality")}>
+                        <option disabled selected>Pick a speciality</option>
+                        {speciality.map(sp => <option key={sp._id} defaultValue={sp.name}>{sp.name}</option>)}
+                        {/* <option>Han Solo</option>
+                        <option>Greedo</option> */}
+                    </select>
+
+
+                </div>
+
+
+                <div className="form-control w-full max-w-xs">
+                    <label className="label">
+                        <span className="label-text">Image</span>
+
+                    </label>
+                    {errors.Name ? <input style={{ border: '1px solid red' }} type="file" {...register("Image", { required: "Image is required" })} placeholder="Type here your name" className="input  w-full max-w-xs" /> : <input type="file" {...register("Image")} placeholder="Type here your Name" className="input  w-full max-w-xs" />}
+                    {/* <input type="email" {...register("Email", { required: "Email Address is required" })} placeholder="Type here" className="input input-bordered w-full max-w-xs" /> */}
+                    {errors.Image && <p className='text-red-800 font-bold' role="alert">{errors.Image?.message}</p>}
 
                 </div>
 
@@ -60,7 +133,7 @@ const AddDoctor = () => {
 </select>
 <textarea {...register("aboutYou")} placeholder="About you" /> */}
                 {/* <p>{data}</p> */}
-                <input className="btn btn-outline btn-secondary w-full" value="Register" type="submit" />
+                <input className="btn btn-outline btn-accent w-full" value="Register" type="submit" />
 
             </form>
 
