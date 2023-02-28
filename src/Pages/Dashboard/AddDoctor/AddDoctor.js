@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 import Loading from '../../Shared/Loading/Loading';
 
 const AddDoctor = () => {
@@ -17,6 +18,8 @@ const AddDoctor = () => {
 
     })
 
+    const navigate = useNavigate();
+
     const { register, formState: { errors }, handleSubmit, watch } = useForm();
 
     const imagehostkey = process.env.REACT_APP_IMAGE_BB;
@@ -26,7 +29,7 @@ const AddDoctor = () => {
         const image = data.Image[0];
         const formData = new FormData();
         formData.append('image', image)
-        const url = `https://api.imgbb.com/1/upload?expiration=600&key=${imagehostkey}`
+        const url = `https://api.imgbb.com/1/upload?key=${imagehostkey}`
         fetch(url, {
             method: 'POST',
             body: formData
@@ -50,9 +53,10 @@ const AddDoctor = () => {
                         body: JSON.stringify(doctor)
                     })
                         .then(res => res.json())
-                        .then(data => {
-                            console.log(data)
+                        .then(result => {
+                            console.log(result)
                             toast.success(`${data.Name} Added successfully`)
+                            navigate('/dashboard/manageDoctor')
                         })
                 }
             })
