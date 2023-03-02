@@ -1,8 +1,15 @@
 import { useQuery } from '@tanstack/react-query';
-import React from 'react';
+import React, { useState } from 'react';
 import toast from 'react-hot-toast';
+import Confirmationmodal from '../../Shared/Confirmationmodal/Confirmationmodal';
 
 const Allusers = () => {
+
+    const [deletingUser, setdeletingUser] = useState(null)
+
+    const closeModal = () => {
+        setdeletingUser(null)
+    }
     const { data: users = [], refetch } = useQuery({
         queryKey: ['users'],
         queryFn: async () => {
@@ -27,6 +34,22 @@ const Allusers = () => {
                     refetch();
                 }
                 console.log(data)
+            })
+    }
+
+
+    const deleteUser = user => {
+        fetch(`http://localhost:5080/users/${user._id}`, {
+            method: 'DELETE'
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+                if (data.deletedCount > 0) {
+                    toast(`${user.name} is deleted`)
+                    refetch()
+                }
+
             })
     }
     return (
@@ -54,7 +77,7 @@ const Allusers = () => {
                                 <td>{user.name}</td>
                                 <td>{user.email}</td>
                                 <td>{user?.role !== 'admin' && <button onClick={() => handlemakeadmin(user._id)} className='btn btn-xs btn-primary'>Make Admin</button>}</td>
-                                <td>{user?.role !== 'admin' && <button className='btn btn-xs btn-error'>Delete</button>}</td>
+                                <td>{user?.role !== 'admin' && <label onClick={() => setdeletingUser(user)} htmlFor="confirmation-modal" className='btn btn-xs btn-error'>Delete</label>}</td>
 
 
 
@@ -66,6 +89,20 @@ const Allusers = () => {
                     </tbody>
                 </table>
             </div>
+
+
+            {
+                deletingUser && <Confirmationmodal
+                    title={`Are your sure you want to delete?`}
+                    message={`If you delete ${deletingUser.name}. it can not be undone`}
+                    closeModal={closeModal}
+                    modaldata={deletingUser}
+                    deleteDoctor={deleteUser}
+
+                ></Confirmationmodal>
+            }
+
+
 
         </div>
     );

@@ -1,13 +1,22 @@
 import { useQuery } from '@tanstack/react-query';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
+import toast from 'react-hot-toast';
+import { Link } from 'react-router-dom';
 import { AuthContext } from '../../../Contexts/Authprovider';
+import Confirmationmodal from '../../Shared/Confirmationmodal/Confirmationmodal';
+import Loading from '../../Shared/Loading/Loading';
 
 const Myappointment = () => {
+    const [deletingAppointment, setdeletingAppointment] = useState(null)
+
+    const closeModal = () => {
+        setdeletingAppointment(null)
+    }
     const { user } = useContext(AuthContext)
 
     const url = `http://localhost:5080/bookings?email=${user?.email}`
 
-    const { data: bookings = [] } = useQuery({
+    const { data: bookings = [], isLoading, refetch } = useQuery({
         queryKey: ['bookings', user?.email],
         queryFn: async () => {
             const res = await fetch(url, {
@@ -19,6 +28,25 @@ const Myappointment = () => {
             return data;
         }
     })
+
+    const deleteBooking = appointment => {
+        fetch(`http://localhost:5080/bookings/${appointment._id}`, {
+            method: 'DELETE'
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+                if (data.deletedCount > 0) {
+                    toast.success(`${appointment.patient} is deleted`)
+                    refetch()
+                }
+
+            })
+    }
+
+    if (isLoading) {
+        <Loading></Loading>
+    }
     return (
         <div>
             <h1 className='text-3xl'>My appointments</h1>
@@ -33,6 +61,8 @@ const Myappointment = () => {
                             <th>Date</th>
                             <th>phone</th>
                             <th>slot</th>
+                            <th>Price</th>
+                            <th>Payment</th>
                             <th>Delete</th>
                         </tr>
                     </thead>
@@ -48,7 +78,20 @@ const Myappointment = () => {
                                     <td>{booking.appointmentDate}</td>
                                     <td>{booking.phone}</td>
                                     <td>{booking.slot}</td>
-                                    <td><button className='btn btn-xs btn-error'>Delete</button></td>
+                                    <td>{booking.price}</td>
+                                    <td>
+                                        {
+                                            booking.price && !booking.paid && <Link to={`/dashboard/payment/${booking._id}`}><button class="btn btn-xs btn-success">Make payment</button></Link>
+                                        }
+
+                                        {
+                                            booking.price && booking.paid && <span>Paid</span>
+                                        }
+
+
+
+                                    </td>
+                                    <td><label onClick={() => setdeletingAppointment(booking)} htmlFor="confirmation-modal" className='btn btn-xs btn-error'>Delete</label></td>
                                 </tr>
                             )
                         }
@@ -57,6 +100,16 @@ const Myappointment = () => {
                     </tbody>
                 </table>
             </div>
+            {
+                deletingAppointment && <Confirmationmodal
+                    title={`Are your sure you want to delete?`}
+                    message={`If you delete ${deletingAppointment.patient}. it can not be undone`}
+                    closeModal={closeModal}
+                    modaldata={deletingAppointment}
+                    deleteDoctor={deleteBooking}
+
+                ></Confirmationmodal>
+            }
 
         </div>
     );

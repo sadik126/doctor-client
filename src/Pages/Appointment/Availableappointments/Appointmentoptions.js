@@ -8,7 +8,7 @@ import { AuthContext } from '../../../Contexts/Authprovider';
 import toast from 'react-hot-toast';
 
 const Appointmentoptions = ({ appointmentoptions, setTreatment }) => {
-    const { name, slots } = appointmentoptions
+    const { name, slots, price } = appointmentoptions
 
 
 
@@ -41,6 +41,7 @@ const Appointmentoptions = ({ appointmentoptions, setTreatment }) => {
                     <h2 className="text-xl font-bold text-center text-orange-700">{name}</h2>
                     <p className='text-center'>{slots.length > 0 ? slots[0] : 'Try another day'}</p>
                     <p className='text-center'>{slots.length} {slots.length > 1 ? 'spaces' : 'space'} Available</p>
+                    <p className='text-center'><small>Price: $<span className='text-green-700'>{price}</span> </small></p>
                     <div className="card-actions justify-center">
                         <label className="btn appointment" disabled={slots.length === 0} onClick={() => setTreatment(appointmentoptions)} htmlFor="my-modal-3">Book Appointment</label>
 

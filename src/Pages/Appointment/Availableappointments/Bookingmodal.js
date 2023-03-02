@@ -4,7 +4,7 @@ import toast from 'react-hot-toast';
 import { AuthContext } from '../../../Contexts/Authprovider';
 
 const Bookingmodal = ({ setTreatment, treatment, Dateselect, refetch }) => {
-    const { name: treatmentName, slots } = treatment;
+    const { name: treatmentName, slots, price } = treatment;
     const date = format(Dateselect, 'PP');
     const { user } = useContext(AuthContext);
 
@@ -25,6 +25,7 @@ const Bookingmodal = ({ setTreatment, treatment, Dateselect, refetch }) => {
             treatment: treatmentName,
             patient: patientname,
             slot,
+            price,
             email,
             phone,
         }
@@ -74,8 +75,10 @@ const Bookingmodal = ({ setTreatment, treatment, Dateselect, refetch }) => {
                             }
                         </select>
                         <input name='name' type="text" defaultValue={user?.displayName} placeholder="Type your name" className="input input-bordered w-full max-w-xs" />
-                        <span id="NameError" style={{ color: 'red' }}></span>
+                        {/* <span id="NameError" style={{ color: 'red' }}></span> */}
+                        {/* <p>Price: ${treatment?.price}</p> */}
                         <input name='email' type="email" defaultValue={user?.email} disabled placeholder="Type your email" className="input input-bordered w-full max-w-xs" />
+
                         <input name='phone' type="text" defaultValue={'+88'} placeholder="Type your number" className="input input-bordered w-full max-w-xs" />
                         {/* <IntlTelInput
                                         className="input input-bordered w-full max-w-xs"

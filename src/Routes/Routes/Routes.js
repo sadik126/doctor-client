@@ -8,6 +8,7 @@ import Allusers from "../../Pages/Dashboard/Allusers/Allusers";
 import Dashboard from "../../Pages/Dashboard/Dashboard/Dashboard";
 import Managedoctors from "../../Pages/Dashboard/Managedoctors/Managedoctors";
 import Myappointment from "../../Pages/Dashboard/Myappointment/Myappointment";
+import Payment from "../../Pages/Dashboard/Payment/Payment";
 import Home from "../../Pages/Home/Home/Home";
 import Signup from "../../Signup/Signup";
 import Adminroute from "../Adminroute/Adminroute";
@@ -57,6 +58,10 @@ const router = createBrowserRouter([
             {
                 path: '/dashboard/manageDoctor',
                 element: <Adminroute><Managedoctors></Managedoctors></Adminroute>
+            },
+            {
+                path: '/dashboard/payment/:id',
+                element: <Adminroute><Payment></Payment></Adminroute>
             },
 
         ]
