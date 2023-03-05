@@ -18,7 +18,7 @@ const Managedoctors = () => {
         queryKey: ['doctors'],
         queryFn: async () => {
             try {
-                const res = await fetch('http://localhost:5080/doctors')
+                const res = await fetch('https://doctor-server-site.vercel.app/doctors')
 
                 const data = await res.json();
                 return data;
@@ -33,7 +33,7 @@ const Managedoctors = () => {
 
 
     const deleteDoctor = doctor => {
-        fetch(`http://localhost:5080/doctors/${doctor._id}`, {
+        fetch(`https://doctor-server-site.vercel.app/doctors/${doctor._id}`, {
             method: 'DELETE'
         })
             .then(res => res.json())

@@ -13,7 +13,7 @@ const Allusers = () => {
     const { data: users = [], refetch } = useQuery({
         queryKey: ['users'],
         queryFn: async () => {
-            const res = await fetch('http://localhost:5080/users')
+            const res = await fetch('https://doctor-server-site.vercel.app/users')
             const data = await res.json();
             return data;
         }
@@ -21,7 +21,7 @@ const Allusers = () => {
 
 
     const handlemakeadmin = (id) => {
-        fetch(`http://localhost:5080/users/admin/${id}`, {
+        fetch(`https://doctor-server-site.vercel.app/users/admin/${id}`, {
             method: 'PUT',
             headers: {
                 authorization: `bearer ${localStorage.getItem('accessToken')}`
@@ -39,7 +39,7 @@ const Allusers = () => {
 
 
     const deleteUser = user => {
-        fetch(`http://localhost:5080/users/${user._id}`, {
+        fetch(`https://doctor-server-site.vercel.app/users/${user._id}`, {
             method: 'DELETE'
         })
             .then(res => res.json())

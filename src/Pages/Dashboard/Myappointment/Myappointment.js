@@ -14,7 +14,7 @@ const Myappointment = () => {
     }
     const { user } = useContext(AuthContext)
 
-    const url = `http://localhost:5080/bookings?email=${user?.email}`
+    const url = `https://doctor-server-site.vercel.app/bookings?email=${user?.email}`
 
     const { data: bookings = [], isLoading, refetch } = useQuery({
         queryKey: ['bookings', user?.email],
@@ -30,7 +30,7 @@ const Myappointment = () => {
     })
 
     const deleteBooking = appointment => {
-        fetch(`http://localhost:5080/bookings/${appointment._id}`, {
+        fetch(`https://doctor-server-site.vercel.app/bookings/${appointment._id}`, {
             method: 'DELETE'
         })
             .then(res => res.json())
@@ -85,7 +85,7 @@ const Myappointment = () => {
                                         }
 
                                         {
-                                            booking.price && booking.paid && <span>Paid</span>
+                                            booking.price && booking.paid && <span className='text-success'>Paid</span>
                                         }
 
 

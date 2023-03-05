@@ -59,7 +59,7 @@ const Signup = () => {
 
     const saveuser = (Name, Email, Password) => {
         const users = { name: Name, email: Email, password: Password }
-        fetch('http://localhost:5080/users', {
+        fetch('https://doctor-server-site.vercel.app/users', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -74,7 +74,7 @@ const Signup = () => {
     }
 
     const getusertoken = (email) => {
-        fetch(`http://localhost:5080/jwt?email=${email}`)
+        fetch(`https://doctor-server-site.vercel.app/jwt?email=${email}`)
             .then(res => res.json())
             .then(data => {
                 console.log(data)

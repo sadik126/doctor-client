@@ -1,10 +1,42 @@
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import Loading from '../../Shared/Loading/Loading';
 
-const Cardpayment = () => {
+
+const Cardpayment = ({ booking }) => {
+    const [clientSecret, setClientSecret] = useState("");
+    const [success, setSuccess] = useState("");
+    const [processing, setProcessing] = useState(false);
+    const [transationId, setTransationid] = useState("");
+    const [isLoading, setIsLoading] = useState(true)
     const [cardError, setcardError] = useState('')
     const stripe = useStripe()
     const elements = useElements();
+    const { price, patient, email, _id
+    } = booking
+
+    useEffect(() => {
+        // Create PaymentIntent as soon as the page loads
+        fetch("https://doctor-server-site.vercel.app/create-payment-intent", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ price }),
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                if (data?.clientSecret) {
+                    setClientSecret(data.clientSecret);
+                    setIsLoading(false)
+                }
+                // setClientSecret(data.clientSecret)
+
+            });
+
+    }, [price]);
+
+    if (isLoading) {
+        return <Loading></Loading>
+    }
     const handleSubmit = async (event) => {
         event.preventDefault();
 
@@ -29,6 +61,59 @@ const Cardpayment = () => {
             setcardError('')
         }
 
+
+
+        setSuccess('')
+        setProcessing(true)
+        const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment(
+            clientSecret,
+            {
+                payment_method: {
+                    card: card,
+                    billing_details: {
+                        name: patient,
+                        email: email
+                    },
+                },
+            },
+        );
+
+        if (confirmError) {
+            setcardError(confirmError.message)
+            return
+        }
+
+        if (paymentIntent.status === 'succeeded') {
+
+
+            const payment = {
+                price,
+                transationId: paymentIntent.id,
+                email,
+                bookingId: _id
+
+            }
+
+            fetch('https://doctor-server-site.vercel.app/payments', {
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/json'
+                },
+                body: JSON.stringify(payment)
+            })
+
+                .then(res => res.json())
+                .then(data => {
+                    if (data.insertedId) {
+                        console.log(data)
+                        setSuccess('Congrates.Your payment is complete')
+                        setTransationid(paymentIntent.id)
+                    }
+                })
+        }
+
+        setProcessing(false)
+
     }
     return (
         <div>
@@ -38,7 +123,7 @@ const Cardpayment = () => {
                         style: {
                             base: {
                                 fontSize: '16px',
-                                color: '#424770',
+                                color: '#50d57f',
                                 '::placeholder': {
                                     color: '#aab7c4',
                                 },
@@ -49,11 +134,18 @@ const Cardpayment = () => {
                         },
                     }}
                 />
-                <button className='btn btn-success mt-10' type="submit" disabled={!stripe}>
+                <button className='btn btn-success mt-10' type="submit" disabled={!stripe || !clientSecret || processing}>
                     Pay
                 </button>
             </form>
             <p className="text-red-600">{cardError}</p>
+            {
+                success && <div>
+                    <p className="text-green-600">{success}</p>
+                    <p>Your transationId: <span className='font-extrabold'>{transationId}</span> </p>
+                </div>
+            }
+
 
         </div>
     );

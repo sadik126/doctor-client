@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../Contexts/Authprovider';
 import Theme from '../../../Theme/Theme';
 import './Header.css';
+import logo from '../../../assets/images/logo-removebg-preview.png';
 
 const Header = () => {
     const { user, Logout } = useContext(AuthContext)
@@ -49,7 +50,7 @@ const Header = () => {
                             }
                         </ul>
                     </div>
-                    <Link to='/' className="normal-case text-xl">Doctors Hub</Link>
+                    <Link to='/' className="normal-case text-xl"><img className='lg:w-4/12 sm:w-full' src={logo} alt="" /></Link>
                 </div>
                 <div className="navbar-center hidden lg:flex">
                     <ul className="menu menu-horizontal px-1">
