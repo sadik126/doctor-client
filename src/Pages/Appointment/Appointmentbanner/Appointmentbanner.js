@@ -9,10 +9,10 @@ const Appointmentbanner = ({ Dateselect, setDateselect }) => {
         before: Dateselect
     }
     return (
-        <header className='my-6'>
+        <header className='my-6 banner'>
             <div className="hero">
                 <div className="hero-content flex-col lg:flex-row-reverse gap-48">
-                    <img src={chair} className="max-w-sm rounded-lg shadow-2xl" />
+                    <img src={chair} className="lg:w-6/12 sm:w-full rounded-lg shadow-2xl" />
                     <div>
                         <DayPicker
 

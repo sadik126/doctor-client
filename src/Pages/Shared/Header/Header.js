@@ -19,12 +19,12 @@ const Header = () => {
             .catch(err => console.log(err))
     }
     const menuItems = <>
-        <li><Link to='/' activeClassName="active">Home</Link></li>
-        <li><Link to='/appointment' activeClassName="active">Appointment</Link></li>
-        <li><Link to='/dashboard' activeClassName="active">Dashboard</Link></li>
+        <li><Link to='/' >Home</Link></li>
+        <li><Link to='/appointment' >Appointment</Link></li>
+        <li><Link to='/dashboard' >Dashboard</Link></li>
 
-        <li><Link to=''>About</Link></li>
-        <li><Link to=''>Contact</Link></li>
+        <li><Link to='/about'>About</Link></li>
+        <li><Link to='/contact'>Contact</Link></li>
         {
             user?.uid ? <li><Link to='' className='text-orange-700'>Welcome  {user.displayName}</Link></li> : <li><Link to=''></Link></li>
         }

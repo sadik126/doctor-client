@@ -78,10 +78,10 @@ const Login = () => {
     }
 
     return (
-        <div className='h-[600px] flex justify-center items-center'>
-            <div className='hero-content flex-col lg:flex-row gap-64'>
+        <div className=' flex justify-center items-center my-16'>
+            <div className='hero-content flex-col lg:flex-row gap-28'>
 
-                <img src={login} className="max-w-sm rounded-lg shadow-2xl" alt="" />
+                <img src={login} className="sm:w-full lg:w-6/12 rounded-lg shadow-2xl" alt="" />
 
                 <div className='w-96 p-7 formbg'>
                     <h2 className='text-4xl'>Login</h2>

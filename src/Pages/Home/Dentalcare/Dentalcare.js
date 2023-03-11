@@ -4,7 +4,7 @@ import './Dentalcare.css';
 
 const Dentalcare = () => {
     return (
-        <div className="hero min-h-screen bg-base-200">
+        <div className="hero min-h-screen bg-base-200" data-aos="fade-right">
             <div className="hero-content flex-col lg:flex-row gap-24">
                 <img style={{ width: '100%' }} src={treatment} className="max-w-sm rounded-lg shadow-2xl" />
                 <div className='lg:w-1/2'>

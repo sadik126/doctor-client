@@ -2,8 +2,8 @@ import React from 'react';
 
 const Service = ({ service }) => {
     return (
-        <div>
-            <div className="card lg:max-w-lg bg-base-100 shadow-xl">
+        <div data-aos="zoom-in">
+            <div className="card lg:max-w-lg bg-base-100 shadow-xl" >
                 <figure className="px-10 pt-10">
                     <img src={service.img} alt="Shoes" className="rounded-xl" />
                 </figure>

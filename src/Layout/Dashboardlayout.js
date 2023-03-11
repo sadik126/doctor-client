@@ -14,12 +14,12 @@ const Dashboardlayout = () => {
                 <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
                 <div className="drawer-content">
                     <Outlet></Outlet>
-                    <label htmlFor="my-drawer-2" className="btn btn-primary drawer-button lg:hidden">Open drawer</label>
+                    {/* <label htmlFor="my-drawer-2" className="btn btn-primary drawer-button lg:hidden">Open drawer</label> */}
 
                 </div>
                 <div className="drawer-side">
                     <label htmlFor="my-drawer-2" className="drawer-overlay"></label>
-                    <ul className="menu p-4 w-80  text-base-content">
+                    <ul className="menu bg-base-300 p-4 w-80  text-base-content">
 
                         <li><Link to='/dashboard'>My appointments</Link></li>
                         {
@@ -28,6 +28,7 @@ const Dashboardlayout = () => {
                                 <li><Link to='/dashboard/users'>Users</Link></li>
                                 <li><Link to='/dashboard/addDoctor'>Add doctor</Link></li>
                                 <li><Link to='/dashboard/manageDoctor'>Manage doctor</Link></li>
+                                <li><Link to='/dashboard/Allbookings'>Manage Appointments</Link></li>
                             </>
                         }
                     </ul>

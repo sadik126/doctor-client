@@ -87,12 +87,12 @@ const Signup = () => {
             })
     }
     return (
-        <div className='h-[600px] flex justify-center items-center my-10'>
-            <div className='hero-content flex-col lg:flex-row gap-64'>
+        <div className=' flex justify-center items-center my-10'>
+            <div className='hero-content w-full flex-col lg:flex-row gap-28'>
 
-                <img src={signup} className="max-w-sm rounded-lg " alt="" />
+                <img src={signup} className="sm:w-full lg:w-6/12 rounded-lg " alt="" />
 
-                <div className='w-96 p-7 formbg'>
+                <div className='w-96 p-7  formbg'>
                     <h2 className='text-4xl'>Sign up</h2>
                     <form onSubmit={handleSubmit(handleLogin)} >
 

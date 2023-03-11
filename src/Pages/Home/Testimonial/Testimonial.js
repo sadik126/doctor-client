@@ -32,7 +32,7 @@ const Testimonial = () => {
 
     ]
     return (
-        <section className='my-28'>
+        <section className='my-28' data-aos="fade-right">
             <div className='flex justify-between'>
                 <div  >
                     <h4 className='text-xl text-cyan-500 font-bold' >Testimonials</h4>
